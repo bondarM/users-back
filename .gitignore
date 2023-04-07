@@ -36,4 +36,3 @@ lerna-debug.log*
 # Other
 db_data
 redis_data
-*.env
