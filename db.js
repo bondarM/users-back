@@ -4,10 +4,10 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB,
-  password: process.env.DB_PASSWORD,
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  database: process.env.MYSQLDATABASE,
+  password: process.env.MYSQLPASSWORD,
 })
 
 db.connect((err) => {
