@@ -39,7 +39,7 @@ class UserService {
   }
 
   async login(email, password) {
-    const sql = `SELECT id, name, role_id, isActivated
+    const sql = `SELECT id, name, password, role_id, isActivated
       FROM users
       WHERE email = "${email}";`
 
@@ -67,10 +67,10 @@ class UserService {
     if (!decodedData) {
       throw ApiError.UnauthorizedError()
     }
-    const sqlUser = `SELECT id, name, email, role_id
+    const sqlUser = `SELECT id, name, role_id, isActivated
     FROM users
     WHERE id = "${decodedData.id}";`
-    const [[user], _] = await db.execute(sqlUser)
+    const user = await db.execute(sqlUser)
     return user
   }
 
