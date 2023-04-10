@@ -39,7 +39,7 @@ class UserService {
   }
 
   async login(email, password) {
-    const sql = `SELECT id, name, role_id
+    const sql = `SELECT id, name, role_id, isActivated
       FROM users
       WHERE email = "${email}";`
 
