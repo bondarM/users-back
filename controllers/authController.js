@@ -31,7 +31,17 @@ class AuthController {
       next(err)
     }
   }
+  async user(req, res, next) {
+    try {
+      const token = req.headers.authorization.split(" ")[1]
+      console.log(token);
+      const user = await userService.user(token)
 
+      res.status(200).json(user)
+    } catch (err) {
+      next(err)
+    }
+  }
   async getUsers(req, res, next) {
     try {
       const allUsers = await userService.getUsers()
@@ -47,7 +57,7 @@ class AuthController {
       const { id } = req.body
       await userService.deleteUser(id)
       res.status(200).json("User deleted")
-      
+
     } catch (err) {
       next(err)
     }

@@ -13,6 +13,7 @@ authRouter.post("/login", authController.login)
 authRouter.delete("/logout", authController.logout)
 authRouter.get("/activate/:link", authController.activateMail)
 authRouter.get("/users", authMiddleware, authController.getUsers)
+authRouter.get("/user", authMiddleware, authController.user)
 authRouter.delete("/delete-user", authController.deleteUser)
 authRouter.get("/refresh", authController.refresh)
 

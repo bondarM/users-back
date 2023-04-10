@@ -5,6 +5,7 @@ import mailService from "../services/mailService.js"
 import { v4 } from 'uuid'
 import dotenv from 'dotenv'
 import ApiError from "../exceptions/apiError.js"
+import jwt from 'jsonwebtoken'
 dotenv.config()
 
 class UserService {
@@ -34,11 +35,11 @@ class UserService {
     ///add to db user token
     const tokens = tokenService.generateTokens(newUser.insertId, email, password)
     await tokenService.saveToken(newUser.insertId, tokens.refreshToken) ///insertId user id from response
-    return { id: newUser.insertId, ...newUser }
+    return { id: newUser.insertId }
   }
 
   async login(email, password) {
-    const sql = `SELECT id, name, password, role_id, isActivated
+    const sql = `SELECT id, name, role_id
       FROM users
       WHERE email = "${email}";`
 
@@ -58,7 +59,19 @@ class UserService {
     const tokens = tokenService.generateTokens(user.id, user.email, user.password)
     await tokenService.saveToken(user.id, tokens.refreshToken)
 
-    return { ...tokens }
+    return { ...tokens, user }
+  }
+
+  async user(token) {
+    const decodedData = jwt.verify(token, process.env.SECRET_ACCESS)
+    if (!decodedData) {
+      throw ApiError.UnauthorizedError()
+    }
+    const sqlUser = `SELECT id, name, email, role_id
+    FROM users
+    WHERE id = "${decodedData.id}";`
+    const [[user], _] = await db.execute(sqlUser)
+    return user
   }
 
   async getUsers() {

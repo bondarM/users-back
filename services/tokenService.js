@@ -11,7 +11,7 @@ class TokenService {
       email,
       password
     }
-    const accessToken = jwt.sign(payload, process.env.SECRET_ACCESS, { expiresIn: "30s" })
+    const accessToken = jwt.sign(payload, process.env.SECRET_ACCESS, { expiresIn: "1h" })
     const refreshToken = jwt.sign(payload, process.env.SECRET_REFRESH, { expiresIn: "30days" })
 
     return { accessToken, refreshToken }
