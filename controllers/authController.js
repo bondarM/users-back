@@ -14,7 +14,7 @@ class AuthController {
       }
       const { name, email, password } = req.body
       const newUser = await userService.registeration(name, email, password)
-      res.status(201).json({ message: "User added", newUser })
+      res.status(200).json({ message: "User added", newUser })
 
     } catch (err) {
       next(err)
@@ -25,7 +25,7 @@ class AuthController {
     try {
       const { email, password } = req.body
       const tokens = await userService.login(email, password)
-      res.status(201).json({ ...tokens })
+      res.status(200).json({ ...tokens })
 
     } catch (err) {
       next(err)
@@ -79,7 +79,7 @@ class AuthController {
     try {
       const token = req.headers.authorization.split(" ")[1]
       const tokens = await userService.refresh(token)
-      res.status(201).json({ ...tokens })
+      res.status(200).json({ ...tokens })
 
     } catch (err) {
       next(err)
