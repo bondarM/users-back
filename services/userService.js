@@ -58,7 +58,7 @@ class UserService {
 
     const tokens = tokenService.generateTokens(user.id, user.email, user.password)
     await tokenService.saveToken(user.id, tokens.refreshToken)
-
+    delete user.password
     return { ...tokens, user }
   }
 
